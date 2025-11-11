@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guilherme Lopes · Desenvolvedor Interativo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Fira+Code:wght@400;600&display=swap"
+    rel="stylesheet" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/ícones/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/ícones/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/ícones/favicon-16x16.png" />
+  <link rel="manifest" href="assets/ícones/site.webmanifest" />
+  <link rel="icon" href="assets/ícones/favicon.ico" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="theme-light">
+  <header class="hero">
+    <nav class="nav">
+      <div class="logo">glopes.dev</div>
+      <ul class="nav-links">
+        <li><a href="#sobre">Sobre</a></li>
+        <li><a href="#painel">Painel</a></li>
+        <li><a href="#projetos">Projetos</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#timeline">Trajetória</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+      <button id="theme-toggle" class="ghost-button" aria-label="Alternar tema">
+        🌙
+      </button>
+    </nav>
+    <div class="hero-content">
+      <div>
+        <p class="eyebrow">Olá, eu sou</p>
+        <h1>Guilherme Lopes</h1>
+        <p class="subtitle">
+          Desenvolvedor full stack em formação apaixonado por experiências imersivas,
+          automações inteligentes e interfaces que contam histórias.
+        </p>
+        <div class="cta-group">
+          <a class="primary-button" href="#projetos">Ver projetos</a>
+          <a class="secondary-button" href="#terminal">Abrir terminal</a>
+        </div>
+        <div class="hero-tags">
+          <span>#FrontEnd</span>
+          <span>#BackEnd</span>
+          <span>#Automacao</span>
+          <span>#ExperiênciasImersivas</span>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="status-dot"></div>
+        <p class="hero-card-title">Disponível para desafios</p>
+        <p class="hero-card-body">
+          Mais de 6 anos construindo produtos digitais, liderando squads e
+          evoluindo sistemas críticos.
+        </p>
+        <ul class="hero-card-list">
+          <li>📍 De São Paulo para o Mundo</li>
+          <li>🧠 Curioso por Códigos</li>
+          <li>🎮 Coleciona easter eggs</li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section id="sobre" class="section about">
+      <div class="section-header">
+        <p class="eyebrow">Sobre mim</p>
+        <h2>Construindo produtos com propósito e um toque de magia</h2>
+      </div>
+      <div class="about-grid">
+        <div>
+          <p>
+            Sou desenvolvedor full stack em formação com foco em experiências interativas.
+            Adoro transformar ideias em interfaces fluidas e funcionais,
+            equilibrando performance, acessibilidade e estética.
+          </p>
+
+          <div class="chips">
+            <span>Product minded</span>
+            <span>Team player</span>
+            <span>DevRel vibes</span>
+          </div>
+        </div>
+        <div class="about-card">
+          <p class="card-title">Status atual</p>
+          <ul>
+            <li>🧠 Evoluindo como desenvolvedor Full Stack e entusiasta DevOps</li>
+            <li>🔧 Construindo e aprimorando sistemas escaláveis e modernos</li>
+            <li>📚 Estudando Ciência da Computação</li>
+          </ul>
+          <a class="ghost-button" href="#contato">Vamos conversar</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="painel" class="section panel">
+      <div class="section-header">
+        <p class="eyebrow">Painel dinâmico</p>
+        <h2>Telemetria em tempo real (ou quase)</h2>
+      </div>
+      <div class="panel-grid">
+        <article class="panel-card">
+          <p class="panel-label">Código versionado (KB)</p>
+          <p class="panel-value" data-counter="6000" data-type="code-size">0</p>
+          <p class="panel-hint">Soma aproximada do tamanho dos repositórios públicos</p>
+        </article>
+        <article class="panel-card">
+          <p class="panel-label">Projetos publicados</p>
+          <p class="panel-value" data-counter="8" data-type="projects">0</p>
+          <p class="panel-hint">Hospedagem via GitHub Pages e servidores locais</p>
+        </article>
+        <article class="panel-card">
+          <p class="panel-label">Commits públicos</p>
+          <p class="panel-value" data-counter="120" data-type="commits">0</p>
+          <p class="panel-hint">Somados a partir dos últimos pushes</p>
+        </article>
+        <article class="panel-card easter">
+          <p class="panel-label">Modo gamer</p>
+          <p class="panel-value">↑↑↓↓←→←→BA</p>
+          <p class="panel-hint">Desbloqueie para jogar</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="terminal" class="section terminal">
+      <div class="section-header">
+        <p class="eyebrow">Terminal falso</p>
+        <h2>Digite <code>help</code> para descobrir os comandos</h2>
+      </div>
+      <div class="terminal-window">
+        <div class="terminal-header">
+          <div class="traffic-light red"></div>
+          <div class="traffic-light yellow"></div>
+          <div class="traffic-light green"></div>
+          <span>glopes@portfolio ➜ ~</span>
+        </div>
+        <div id="terminal-output" class="terminal-output">
+          <p>Bem-vindo! Digite <code>help</code> para começar.</p>
+        </div>
+        <form id="terminal-form" class="terminal-input">
+          <label for="terminal-command">glopes ➜</label>
+          <input id="terminal-command" name="terminal-command" type="text" autocomplete="off" placeholder="digite aqui!"
+            aria-label="Comando do terminal" />
+        </form>
+      </div>
+    </section>
+
+    <section id="projetos" class="section projects">
+      <div class="section-header">
+        <p class="eyebrow">Projetos</p>
+        <h2>Cards flipáveis com preview e código aberto</h2>
+      </div>
+        <div id="projects-grid" class="cards-grid"></div>
+      </section>
+
+    <section id="skills" class="section skills">
+      <div class="section-header">
+        <p class="eyebrow">Mapa de skills</p>
+        <h2>Tech + soft skills com força total</h2>
+      </div>
+      <div class="skills-grid">
+        <div>
+          <h3>Tech skills</h3>
+          <ul id="tech-skills" class="skill-list"></ul>
+        </div>
+        <div>
+          <h3>Soft skills</h3>
+          <ul id="soft-skills" class="skill-list soft"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="timeline" class="section timeline">
+      <div class="section-header">
+        <p class="eyebrow">Trajetória</p>
+        <h2>Timeline animada de experiências</h2>
+      </div>
+      <div id="timeline-wrapper" class="timeline-wrapper"></div>
+    </section>
+
+    <section id="contato" class="section contact">
+      <div class="section-header">
+        <p class="eyebrow">Contato</p>
+        <h2>Vamos criar algo juntos?</h2>
+      </div>
+      <div class="contact-grid">
+        <div>
+          <p>
+            Vamos conversar sobre oportunidades, tech talks ou qualquer ideia
+            ousada. Respondo rápido por e-mail e também estou no LinkedIn.
+          </p>
+          <div class="contact-buttons">
+            <a class="primary-button" href="mailto:contato.guilopes@gmail.com">Enviar e-mail</a>
+            <a class="secondary-button" href="https://github.com/theglopes">GitHub</a>
+            <a class="secondary-button" href="https://www.linkedin.com/in/guilherme-lopes00/">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="current-year"></span> Guilherme Lopes · Crafted with ☕ e 🎧</p>
+  </footer>
+
+  <section id="gamer-mode" class="gamer-mode" aria-live="polite">
+    <div class="gamer-panel">
+      <button id="close-gamer" aria-label="Fechar gamer mode">×</button>
+      <h3>Modo Gamer Ativado 👾</h3>
+      <p>Surgem bugs pelo terminal. Clique para caçá-los antes que escapem!</p>
+      <div class="scoreboard">
+        <div>
+          <span>Bugs capturados</span>
+          <strong id="bug-score">0</strong>
+        </div>
+        <div>
+          <span>Perdas</span>
+          <strong id="bug-losses">0</strong>
+        </div>
+      </div>
+      <div class="game-controls">
+        <button id="start-game" class="primary-button">Iniciar hunt</button>
+        <button id="pause-game" class="secondary-button" disabled>Pausar</button>
+      </div>
+      <p id="game-status" class="game-status" aria-live="polite"></p>
+      <div id="bug-field" class="bug-field"></div>
+    </div>
+  </section>
+
+  <section id="private-modal" class="modal-overlay" aria-live="assertive" aria-hidden="true">
+    <div class="modal-card">
+      <button id="close-private" class="modal-close" aria-label="Fechar aviso">×</button>
+      <h3>Repos privados 🤐</h3>
+      <p>
+        Esses repositórios de RPA são privados porque possuem automações ligadas a dados sensíveis da empresa.
+      </p>
+      <div class="cta-group single-action">
+        <button id="private-ok" class="primary-button">Entendi</button>
+      </div>
+    </div>
+  </section>
+
+  <script src="script.js" defer></script>
+</body>
+
+</html>
