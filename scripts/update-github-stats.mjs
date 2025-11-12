@@ -13,12 +13,6 @@ const headers = {
   Accept: "application/vnd.github+json",
 };
 
-const defaultStats = {
-  projects: 8,
-  repoSizeKb: 12000,
-  commits: 84,
-};
-
 async function fetchJson(url, options = {}) {
   const response = await fetch(url, {
     ...options,
@@ -86,16 +80,21 @@ async function main() {
 
   const stats = {
     updatedAt: new Date().toISOString(),
-    projects: Math.max(
-      Number(userData.public_repos) || defaultStats.projects,
-      defaultStats.projects
-    ),
-    repoSizeKb: Math.max(repoSizeKb, defaultStats.repoSizeKb),
-    commits: Math.max(commitTotal, defaultStats.commits),
+    projects: normalizeNumber(userData.public_repos),
+    repoSizeKb: normalizeNumber(repoSizeKb),
+    commits: normalizeNumber(commitTotal),
   };
 
   await mkdir("data", { recursive: true });
   await writeFile("data/github-stats.json", `${JSON.stringify(stats, null, 2)}\n`);
+}
+
+function normalizeNumber(value) {
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed) || parsed < 0) {
+    return 0;
+  }
+  return parsed;
 }
 
 main().catch((error) => {
