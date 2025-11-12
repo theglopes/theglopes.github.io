@@ -379,55 +379,92 @@ async function fetchGitHubStats() {
     }
 
     if (commitsCounter) {
-      const contributions = await fetchContributionTotal(username);
-      if (contributions != null) {
-        const commitsValue = Math.max(contributions, defaultStats.commits);
+    const repoCommits = await fetchCommitsFromRepos(username);
+    if (repoCommits != null) {
+      const commitsValue = Math.max(repoCommits, defaultStats.commits);
+      commitsCounter.dataset.counter = commitsValue;
+      animateCounterElement(commitsCounter, commitsValue);
+    } else {
+      const eventsResponse = await fetch(
+        `https://api.github.com/users/${username}/events/public?per_page=100`
+      );
+      if (eventsResponse.ok) {
+        const events = await eventsResponse.json();
+        const commitSum = events.reduce((total, event) => {
+          if (event.type !== "PushEvent") return total;
+          const commits = event.payload?.commits?.length || 0;
+          return total + commits;
+        }, 0);
+        const commitsValue = Math.max(commitSum, defaultStats.commits);
         commitsCounter.dataset.counter = commitsValue;
         animateCounterElement(commitsCounter, commitsValue);
       } else {
-        const eventsResponse = await fetch(
-          `https://api.github.com/users/${username}/events/public?per_page=100`
-        );
-        if (eventsResponse.ok) {
-          const events = await eventsResponse.json();
-          const commitSum = events.reduce((total, event) => {
-            if (event.type !== "PushEvent") return total;
-            const commits = event.payload?.commits?.length || 0;
-            return total + commits;
-          }, 0);
-          const commitsValue = Math.max(commitSum, defaultStats.commits);
-          commitsCounter.dataset.counter = commitsValue;
-          animateCounterElement(commitsCounter, commitsValue);
-        } else {
-          commitsCounter.dataset.counter = defaultStats.commits;
-          animateCounterElement(commitsCounter, defaultStats.commits);
-        }
+        commitsCounter.dataset.counter = defaultStats.commits;
+        animateCounterElement(commitsCounter, defaultStats.commits);
       }
     }
+  }
+
+
   } catch (error) {
     console.warn("Não foi possível sincronizar com o GitHub:", error);
   }
 }
 
-async function fetchContributionTotal(username) {
+
+async function fetchCommitsFromRepos(username) {
   try {
-    const today = new Date().toISOString().split("T")[0];
-    const proxy = "https://cors.isomorphic-git.org/";
-    const contributionsUrl = `${proxy}https://github.com/users/${username}/contributions?to=${today}`;
-    const response = await fetch(contributionsUrl, {
-      headers: { "X-Requested-With": "fetch" },
-    });
-    if (!response.ok) return null;
-    const html = await response.text();
-    const counts = [...html.matchAll(/data-count="(\d+)"/g)].map((match) =>
-      Number(match[1])
+    const response = await fetch(
+      `https://api.github.com/users/${username}/repos?per_page=100`
     );
-    if (!counts.length) return null;
-    return counts.reduce((sum, value) => sum + value, 0);
+    if (!response.ok) return null;
+    const repos = await response.json();
+    if (!Array.isArray(repos) || !repos.length) return null;
+
+    const ownedRepos = repos.filter((repo) => !repo.fork);
+    const targetRepos = ownedRepos.length ? ownedRepos : repos;
+    const chunkSize = 5;
+    let total = 0;
+
+    for (let i = 0; i < targetRepos.length; i += chunkSize) {
+      const chunk = targetRepos.slice(i, i + chunkSize);
+      const chunkCounts = await Promise.all(
+        chunk.map((repo) => fetchRepoCommitCount(repo.full_name))
+      );
+      total += chunkCounts.reduce((sum, value) => sum + value, 0);
+    }
+
+    return total;
   } catch {
     return null;
   }
 }
+
+async function fetchRepoCommitCount(fullName) {
+  if (!fullName) return 0;
+  try {
+    const response = await fetch(
+      `https://api.github.com/repos/${fullName}/commits?per_page=1`
+    );
+    if (!response.ok) return 0;
+    const linkHeader = response.headers.get("Link");
+    if (linkHeader) {
+      const lastLink = linkHeader
+        .split(",")
+        .map((part) => part.trim())
+        .find((part) => part.endsWith('rel="last"'));
+      if (lastLink) {
+        const match = lastLink.match(/[?&]page=(\d+)>/);
+        if (match) return Number(match[1]);
+      }
+    }
+    const commits = await response.json();
+    return Array.isArray(commits) ? commits.length : 0;
+  } catch {
+    return 0;
+  }
+}
+
 
 function setupKonamiMode() {
   const code = [
