@@ -1,0 +1,43 @@
+﻿name: Update GitHub Stats
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - scripts/update-github-stats.mjs
+      - .github/workflows/update-github-stats.yml
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Generate portfolio stats
+        run: node scripts/update-github-stats.mjs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_USERNAME: theglopes
+
+      - name: Commit updated stats
+        run: |
+          if [[ -z $(git status --porcelain data/github-stats.json) ]]; then
+            echo "No stat changes"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/github-stats.json
+          git commit -m "chore: update GitHub stats"
+          git push

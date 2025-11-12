@@ -327,145 +327,56 @@ function setupCVDownload() {
   // Placeholder retained to avoid errors if called elsewhere.
 }
 
-async function fetchGitHubStats() {
-  const username = "theglopes";
-  const defaultStats = {
-    projects: 8,
-    repoSizeKb: 12000,
-    commits: 84,
-  };
-  const projectCounter = document.querySelector('[data-type="projects"]');
-  const sizeCounter = document.querySelector('[data-type="code-size"]');
-  const commitsCounter = document.querySelector('[data-type="commits"]');
-  if (!projectCounter && !sizeCounter && !commitsCounter) return;
-  if (typeof fetch !== "function") return;
-
-  try {
-    const userResponse = await fetch(
-      `https://api.github.com/users/${username}`
-    );
-    if (!userResponse.ok) throw new Error("user request failed");
-    const userData = await userResponse.json();
-
-    if (projectCounter) {
-      const projectValue =
-        userData.public_repos != null
-          ? Math.max(userData.public_repos, defaultStats.projects)
-          : defaultStats.projects;
-      projectCounter.dataset.counter = projectValue;
-      animateCounterElement(projectCounter, projectValue);
-    }
-
-    if (sizeCounter && userData.repos_url) {
-      try {
-        const reposResponse = await fetch(`${userData.repos_url}?per_page=100`);
-        if (!reposResponse.ok) throw new Error("repos request failed");
-        const repos = await reposResponse.json();
-        const totalSize = repos.reduce(
-          (sum, repo) => sum + (repo.size || 0),
-          0
-        );
-        const repoSizeKb = Math.max(
-          totalSize,
-          defaultStats.repoSizeKb,
-          (userData.public_repos || 1) * 500
-        );
-        sizeCounter.dataset.counter = repoSizeKb;
-        animateCounterElement(sizeCounter, repoSizeKb);
-      } catch {
-        sizeCounter.dataset.counter = defaultStats.repoSizeKb;
-        animateCounterElement(sizeCounter, defaultStats.repoSizeKb);
-      }
-    }
-
-    if (commitsCounter) {
-    const repoCommits = await fetchCommitsFromRepos(username);
-    if (repoCommits != null) {
-      const commitsValue = Math.max(repoCommits, defaultStats.commits);
-      commitsCounter.dataset.counter = commitsValue;
-      animateCounterElement(commitsCounter, commitsValue);
-    } else {
-      const eventsResponse = await fetch(
-        `https://api.github.com/users/${username}/events/public?per_page=100`
-      );
-      if (eventsResponse.ok) {
-        const events = await eventsResponse.json();
-        const commitSum = events.reduce((total, event) => {
-          if (event.type !== "PushEvent") return total;
-          const commits = event.payload?.commits?.length || 0;
-          return total + commits;
-        }, 0);
-        const commitsValue = Math.max(commitSum, defaultStats.commits);
-        commitsCounter.dataset.counter = commitsValue;
-        animateCounterElement(commitsCounter, commitsValue);
-      } else {
-        commitsCounter.dataset.counter = defaultStats.commits;
-        animateCounterElement(commitsCounter, defaultStats.commits);
-      }
-    }
-  }
-
-
-  } catch (error) {
-    console.warn("Não foi possível sincronizar com o GitHub:", error);
-  }
-}
-
-
-async function fetchCommitsFromRepos(username) {
-  try {
-    const response = await fetch(
-      `https://api.github.com/users/${username}/repos?per_page=100`
-    );
-    if (!response.ok) return null;
-    const repos = await response.json();
-    if (!Array.isArray(repos) || !repos.length) return null;
-
-    const ownedRepos = repos.filter((repo) => !repo.fork);
-    const targetRepos = ownedRepos.length ? ownedRepos : repos;
-    const chunkSize = 5;
-    let total = 0;
-
-    for (let i = 0; i < targetRepos.length; i += chunkSize) {
-      const chunk = targetRepos.slice(i, i + chunkSize);
-      const chunkCounts = await Promise.all(
-        chunk.map((repo) => fetchRepoCommitCount(repo.full_name))
-      );
-      total += chunkCounts.reduce((sum, value) => sum + value, 0);
-    }
-
-    return total;
-  } catch {
-    return null;
-  }
-}
-
-async function fetchRepoCommitCount(fullName) {
-  if (!fullName) return 0;
-  try {
-    const response = await fetch(
-      `https://api.github.com/repos/${fullName}/commits?per_page=1`
-    );
-    if (!response.ok) return 0;
-    const linkHeader = response.headers.get("Link");
-    if (linkHeader) {
-      const lastLink = linkHeader
-        .split(",")
-        .map((part) => part.trim())
-        .find((part) => part.endsWith('rel="last"'));
-      if (lastLink) {
-        const match = lastLink.match(/[?&]page=(\d+)>/);
-        if (match) return Number(match[1]);
-      }
-    }
-    const commits = await response.json();
-    return Array.isArray(commits) ? commits.length : 0;
-  } catch {
-    return 0;
-  }
-}
-
-
+async function fetchGitHubStats() {
+  const defaultStats = {
+    projects: 8,
+    repoSizeKb: 12000,
+    commits: 84,
+  };
+  const projectCounter = document.querySelector('[data-type="projects"]');
+  const sizeCounter = document.querySelector('[data-type="code-size"]');
+  const commitsCounter = document.querySelector('[data-type="commits"]');
+  if (!projectCounter && !sizeCounter && !commitsCounter) return;
+  if (typeof fetch !== "function") return;
+
+  let stats = { ...defaultStats };
+
+  try {
+    const response = await fetch("data/github-stats.json", {
+      cache: "no-cache",
+      headers: { "Cache-Control": "no-cache" },
+    });
+    if (!response.ok) throw new Error("stats request failed");
+    const payload = await response.json();
+    stats = {
+      projects: resolveStatValue(payload.projects, defaultStats.projects),
+      repoSizeKb: resolveStatValue(payload.repoSizeKb, defaultStats.repoSizeKb),
+      commits: resolveStatValue(payload.commits, defaultStats.commits),
+    };
+  } catch (error) {
+    console.warn("Nao foi possivel carregar os dados pre-gerados do GitHub:", error);
+  }
+
+  if (projectCounter) {
+    applyCounterValue(projectCounter, stats.projects);
+  }
+  if (sizeCounter) {
+    applyCounterValue(sizeCounter, stats.repoSizeKb);
+  }
+  if (commitsCounter) {
+    applyCounterValue(commitsCounter, stats.commits);
+  }
+}
+
+function resolveStatValue(value, fallback) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : fallback;
+}
+
+function applyCounterValue(counter, value) {
+  counter.dataset.counter = value;
+  animateCounterElement(counter, value);
+}
 function setupKonamiMode() {
   const code = [
     "ArrowUp",
