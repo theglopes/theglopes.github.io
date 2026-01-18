@@ -1,20 +1,19 @@
 const projectData = [
   {
     id: "strum",
-    title: "Strum • Plataforma de jogos digitais",
+    title: "Strum \u2014 Plataforma de jogos digitais",
     description:
       "Sistema inspirado na Steam, com front-end em HTML/CSS/JS e backend em Java + MySQL.",
-    preview: "https://placehold.co/600x400/7c3aed/fff?text=Strum",
+    preview: "https://placehold.co/600x400/0ea5e9/0f172a?text=Strum",
     repo: "https://github.com/theglopes/projetostrum",
     demo: "projects/strum.html",
     tags: ["HTML", "CSS", "Java", "MySQL"],
   },
   {
     id: "automacao",
-    title: "RPA • Automação de Processos e Relatórios",
-    description:
-      "Desenvolvimento de bots em Python com Selenium e openpyx.",
-    preview: "https://placehold.co/600x400/0f172a/fff?text=RPA",
+    title: "RPA \u2014 Automa\u00e7\u00e3o de Processos e Relat\u00f3rios",
+    description: "Desenvolvimento de bots em Python com Selenium e openpyxl.",
+    preview: "https://placehold.co/600x400/0f172a/f6f1e9?text=RPA",
     repo: "https://github.com/guilhermelopes/automacao-inteligente",
     demo: "projects/automacao.html",
     tags: ["Python", "Selenium", "openpyxl"],
@@ -23,8 +22,8 @@ const projectData = [
     id: "outros",
     title: "Outros experimentos e lab aberto",
     description:
-      "Laboratório com atividades da faculdade (muita coisa em Java) e protótipos em HTML, CSS, Node.js e Bootstrap.",
-    preview: "https://placehold.co/600x400/232946/fff?text=Lab",
+      "Laborat\u00f3rio com atividades da faculdade (muita coisa em Java) e prot\u00f3tipos em HTML, CSS, Node.js e Bootstrap.",
+    preview: "https://placehold.co/600x400/1b2437/f6f1e9?text=Lab",
     repo: "https://github.com/theglopes",
     demo: "projects/outros.html",
     tags: ["Java", "HTML", "CSS", "Node.js", "Bootstrap"],
@@ -40,42 +39,42 @@ const techSkills = [
 ];
 
 const softSkills = [
-  { label: "Aprendizado contínuo", level: 100 },
+  { label: "Aprendizado cont\u00ednuo", level: 100 },
   { label: "Trabalho em equipe", level: 95 },
-  { label: "Solução de problemas", level: 90 },
-  { label: "Comunicação", level: 88 },
+  { label: "Solu\u00e7\u00e3o de problemas", level: 90 },
+  { label: "Comunica\u00e7\u00e3o", level: 88 },
 ];
 
 const timelineData = [
   {
     year: "2018",
-    title: "ETEC · Primeiras linhas de código",
+    title: "ETEC \u2014 Primeiras linhas de c\u00f3digo",
     body:
-      "Iniciei os estudos de programação na ETEC, explorando lógica, Java e projetos acadêmicos que acenderam a curiosidade por produtos digitais.",
+      "Iniciei os estudos de programa\u00e7\u00e3o na ETEC, explorando l\u00f3gica, Java e projetos acad\u00eamicos que acenderam a curiosidade por produtos digitais.",
   },
   {
     year: "2020",
-    title: "Suporte & Helpdesk · Primeiro emprego",
+    title: "Suporte & Helpdesk \u2014 Primeiro emprego",
     body:
-      "Atuei na linha de frente atendendo usuários, estruturando documentação e entendendo a infraestrutura que sustenta sistemas corporativos.",
+      "Atuei na linha de frente atendendo usu\u00e1rios, estruturando documenta\u00e7\u00e3o e entendendo a infraestrutura que sustenta sistemas corporativos.",
   },
   {
     year: "2021",
     title: "Desenvolvimento interno de sistemas",
     body:
-      "Passei a participar de aplicações internas, APIs REST e integrações entre equipes, assumindo ownership de features críticas em produção.",
+      "Passei a participar de aplica\u00e7\u00f5es internas, APIs REST e integra\u00e7\u00f5es entre equipes, assumindo ownership de features cr\u00edticas em produ\u00e7\u00e3o.",
   },
   {
     year: "2024",
-    title: "Automação · Webscraping & processos",
+    title: "Automa\u00e7\u00e3o \u2014 Webscraping & processos",
     body:
       "Desenvolvi pipelines de webscraping e robots que automatizaram fluxos manuais, reduzindo horas operacionais e garantindo dados atualizados.",
   },
   {
     year: "2024",
-    title: "Senior & Coordenação de TI (atual)",
+    title: "Senior & Coordena\u00e7\u00e3o de TI (atual)",
     body:
-      "Hoje lidero o time de TI, orquestro roadmap técnico, equilibrando operação, inovação e governança.",
+      "Hoje lidero o time de TI, orquestro roadmap t\u00e9cnico, equilibrando opera\u00e7\u00e3o, inova\u00e7\u00e3o e governan\u00e7a.",
   },
 ];
 
@@ -94,25 +93,28 @@ document.addEventListener("DOMContentLoaded", () => {
   setupRepoGuard();
   setupPrivateModal();
   setupKonamiMode();
+  setupPlayground();
 });
 
 function setupThemeToggle() {
   const button = document.getElementById("theme-toggle");
+  if (!button) return;
+
   const prefersDark =
     window.matchMedia &&
     window.matchMedia("(prefers-color-scheme: dark)").matches;
-  if (prefersDark) {
-    document.body.classList.replace("theme-light", "theme-dark");
-    button.textContent = "☀️";
-  }
+
+  const applyTheme = (isDark) => {
+    document.body.classList.toggle("theme-dark", isDark);
+    document.body.classList.toggle("theme-light", !isDark);
+    button.textContent = isDark ? "\u2600" : "\u263e";
+  };
+
+  applyTheme(prefersDark);
 
   button.addEventListener("click", () => {
-    const lightMode = document.body.classList.toggle("theme-dark");
-    if (lightMode) {
-      button.textContent = "☀️";
-    } else {
-      button.textContent = "🌙";
-    }
+    const next = !document.body.classList.contains("theme-dark");
+    applyTheme(next);
   });
 }
 
@@ -204,7 +206,6 @@ function renderSkills() {
   techSkills.forEach((skill) => techList.appendChild(createItem(skill)));
   softSkills.forEach((skill) => softList.appendChild(createItem(skill)));
 
-  // Trigger animation
   requestAnimationFrame(() => {
     document.querySelectorAll(".skill-bar span").forEach((bar, index) => {
       setTimeout(() => {
@@ -236,33 +237,33 @@ function setupTerminal() {
 
   const commands = {
     help: () => `
-      Comandos disponíveis:
-      - help → mostra esta ajuda
-      - show projects → lista projetos principais
-      - show skills → tech + soft skills
-      - show timeline → principais marcos
-      - links → GitHub, LinkedIn e contato
-      - clear → limpa o terminal
-      - gamer → ativa o mini game (ou use o código secreto)
-      - cv → gera o PDF do currículo
+      Comandos dispon\u00edveis:
+      - help -> mostra esta ajuda
+      - show projects -> lista projetos principais
+      - show skills -> tech + soft skills
+      - show timeline -> principais marcos
+      - links -> GitHub, LinkedIn e contato
+      - clear -> limpa o terminal
+      - gamer -> ativa o mini game (ou use o c\u00f3digo secreto)
+      - cv -> gera o PDF do curr\u00edculo
     `,
     "show projects": () =>
       projectData
-        .map((project) => `• ${project.title} → ${project.repo}`)
+        .map((project) => `- ${project.title} -> ${project.repo}`)
         .join("<br/>"),
     "show skills": () =>
       [...techSkills, ...softSkills]
-        .map((skill) => `• ${skill.label} (${skill.level}%)`)
+        .map((skill) => `- ${skill.label} (${skill.level}%)`)
         .join("<br/>"),
     "show timeline": () =>
       timelineData
-        .map((item) => `${item.year} · ${item.title}`)
+        .map((item) => `${item.year} - ${item.title}`)
         .join("<br/>"),
     links: () =>
       [
-        "GitHub → github.com/guilhermelopes",
-        "LinkedIn → linkedin.com/in/guilhermelopes",
-        "E-mail → hello@guilhermelopes.dev",
+        "GitHub -> github.com/guilhermelopes",
+        "LinkedIn -> linkedin.com/in/guilherme-lopes00",
+        "E-mail -> contato.guilopes@gmail.com",
       ].join("<br/>"),
     clear: () => {
       output.innerHTML = "";
@@ -270,9 +271,9 @@ function setupTerminal() {
     },
     gamer: () => {
       openGamerMode();
-      return "Modo gamer pronto. Caçe os bugs!";
+      return "Modo gamer pronto. Ca\u00e7e os bugs!";
     },
-    cv: () => "Envie um e-mail para solicitar o currículo em PDF atualizado.",
+    cv: () => "Envie um e-mail para solicitar o curr\u00edculo em PDF atualizado.",
   };
 
   const history = [];
@@ -285,7 +286,7 @@ function setupTerminal() {
     history.unshift(command);
     pointer = -1;
 
-    appendLine(`glopes ➜ ${command}`);
+    appendLine(`glopes \u00b7 ${command}`);
     processCommand(command.toLowerCase());
     input.value = "";
   });
@@ -294,7 +295,10 @@ function setupTerminal() {
     if (event.key === "ArrowUp") {
       pointer = Math.min(pointer + 1, history.length - 1);
       input.value = history[pointer] ?? "";
-      setTimeout(() => input.setSelectionRange(input.value.length, input.value.length), 0);
+      setTimeout(
+        () => input.setSelectionRange(input.value.length, input.value.length),
+        0
+      );
     } else if (event.key === "ArrowDown") {
       pointer = Math.max(pointer - 1, -1);
       input.value = pointer === -1 ? "" : history[pointer];
@@ -309,9 +313,11 @@ function setupTerminal() {
         appendLine(response);
       }
     } else if (command.startsWith("show")) {
-      appendLine("Comando disponível: show projects | show skills | show timeline.");
+      appendLine(
+        "Comando dispon\u00edvel: show projects | show skills | show timeline."
+      );
     } else {
-      appendLine(`Comando "${command}" não reconhecido. Use help.`);
+      appendLine(`Comando "${command}" n\u00e3o reconhecido. Use help.`);
     }
   }
 
@@ -327,56 +333,92 @@ function setupCVDownload() {
   // Placeholder retained to avoid errors if called elsewhere.
 }
 
-async function fetchGitHubStats() {
-  const defaultStats = {
-    projects: 8,
-    repoSizeKb: 12000,
-    commits: 84,
-  };
-  const projectCounter = document.querySelector('[data-type="projects"]');
-  const sizeCounter = document.querySelector('[data-type="code-size"]');
-  const commitsCounter = document.querySelector('[data-type="commits"]');
-  if (!projectCounter && !sizeCounter && !commitsCounter) return;
-  if (typeof fetch !== "function") return;
-
-  let stats = { ...defaultStats };
-
-  try {
-    const response = await fetch("data/github-stats.json", {
-      cache: "no-cache",
-      headers: { "Cache-Control": "no-cache" },
-    });
-    if (!response.ok) throw new Error("stats request failed");
-    const payload = await response.json();
-    stats = {
-      projects: resolveStatValue(payload.projects, defaultStats.projects),
-      repoSizeKb: resolveStatValue(payload.repoSizeKb, defaultStats.repoSizeKb),
-      commits: resolveStatValue(payload.commits, defaultStats.commits),
-    };
-  } catch (error) {
-    console.warn("Nao foi possivel carregar os dados pre-gerados do GitHub:", error);
-  }
-
-  if (projectCounter) {
-    applyCounterValue(projectCounter, stats.projects);
-  }
-  if (sizeCounter) {
-    applyCounterValue(sizeCounter, stats.repoSizeKb);
-  }
-  if (commitsCounter) {
-    applyCounterValue(commitsCounter, stats.commits);
-  }
-}
-
-function resolveStatValue(value, fallback) {
-  const parsed = Number(value);
-  return Number.isFinite(parsed) ? parsed : fallback;
-}
-
-function applyCounterValue(counter, value) {
-  counter.dataset.counter = value;
-  animateCounterElement(counter, value);
-}
+async function fetchGitHubStats() {
+  const defaultStats = {
+    projects: 8,
+    repoSizeKb: 12000,
+    commits: 84,
+  };
+  const projectCounter = document.querySelector('[data-type="projects"]');
+  const sizeCounter = document.querySelector('[data-type="code-size"]');
+  const commitsCounter = document.querySelector('[data-type="commits"]');
+  if (!projectCounter && !sizeCounter && !commitsCounter) return;
+  if (typeof fetch !== "function") return;
+
+  let stats = { ...defaultStats };
+
+  try {
+    const response = await fetch("data/github-stats.json", {
+      cache: "no-cache",
+      headers: { "Cache-Control": "no-cache" },
+    });
+    if (!response.ok) throw new Error("stats request failed");
+    const payload = await response.json();
+    stats = {
+      projects: resolveStatValue(payload.projects, defaultStats.projects),
+      repoSizeKb: resolveStatValue(payload.repoSizeKb, defaultStats.repoSizeKb),
+      commits: resolveStatValue(payload.commits, defaultStats.commits),
+    };
+  } catch (error) {
+    console.warn(
+      "N\u00e3o foi poss\u00edvel carregar os dados pre-gerados do GitHub:",
+      error
+    );
+  }
+
+  if (projectCounter) {
+    applyCounterValue(projectCounter, stats.projects);
+  }
+  if (sizeCounter) {
+    applyCounterValue(sizeCounter, stats.repoSizeKb);
+  }
+  if (commitsCounter) {
+    applyCounterValue(commitsCounter, stats.commits);
+  }
+}
+
+function resolveStatValue(value, fallback) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : fallback;
+}
+
+function applyCounterValue(counter, value) {
+  counter.dataset.counter = value;
+  animateCounterElement(counter, value);
+}
+
+function setupPlayground() {
+  const runBtn = document.getElementById("playground-run");
+  const output = document.getElementById("playground-output");
+  if (!runBtn || !output) return;
+
+  const samples = [
+    { status: 200, message: "ok", latency: 128 },
+    { status: 201, message: "created", latency: 146 },
+    { status: 503, message: "service unavailable", latency: 320 },
+  ];
+
+  runBtn.addEventListener("click", () => {
+    runBtn.disabled = true;
+    const previousLabel = runBtn.textContent;
+    runBtn.textContent = "Rodando...";
+    output.innerHTML = "<p>&gt; executando health check...</p>";
+
+    setTimeout(() => {
+      const sample = samples[Math.floor(Math.random() * samples.length)];
+      const timestamp = new Date().toISOString();
+      const lines = [
+        `> status: ${sample.status} (${sample.message})`,
+        `> latency: ${sample.latency} ms`,
+        `> timestamp: ${timestamp}`,
+      ];
+      output.innerHTML = lines.map((line) => `<p>${line}</p>`).join("");
+      runBtn.disabled = false;
+      runBtn.textContent = previousLabel;
+    }, 700);
+  });
+}
+
 function setupKonamiMode() {
   const code = [
     "ArrowUp",
@@ -395,7 +437,11 @@ function setupKonamiMode() {
   window.addEventListener("keydown", (event) => {
     entered.push(event.key);
     if (entered.length > code.length) entered.shift();
-    if (code.every((key, index) => entered[index]?.toLowerCase() === key.toLowerCase())) {
+    if (
+      code.every(
+        (key, index) => entered[index]?.toLowerCase() === key.toLowerCase()
+      )
+    ) {
       openGamerMode();
     }
   });
@@ -486,7 +532,7 @@ function registerBugLoss() {
 function handleBugGameOver() {
   const statusEl = document.getElementById("game-status");
   if (statusEl) {
-    statusEl.textContent = `Fim de jogo! Você capturou ${bugScore} bugs.`;
+    statusEl.textContent = `Fim de jogo! Voc\u00ea capturou ${bugScore} bugs.`;
   }
   const pauseBtn = document.getElementById("pause-game");
   if (pauseBtn) pauseBtn.disabled = true;

@@ -1,88 +1,84 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RPA • Automação de Processos e Relatórios</title>
-    <link rel="apple-touch-icon" sizes="180x180" href="../assets/ícones/apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="../assets/ícones/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="../assets/ícones/favicon-16x16.png" />
-    <link rel="manifest" href="../assets/ícones/site.webmanifest" />
-    <link rel="icon" href="../assets/ícones/favicon.ico" />
-    <link rel="stylesheet" href="../style.css" />
-  </head>
-  <body class="theme-light">
-    <main class="section">
-      <a class="ghost-button" href="../index.html">← Voltar</a>
-      <header class="section-header">
-        <p class="eyebrow">Projeto destaque</p>
-        <h1>RPA • Automação de Processos e Relatórios</h1>
-        <p>Desenvolvi bots em Python com Selenium e openpyxl para integrar dados e gerar relatórios automáticos.</p>
-        <p>O sistema otimiza fluxos internos, entrega insights frescos e garante rastreabilidade ponta a ponta.</p>
-      </header>
-      <section>
-        <h2>Highlights</h2>
-        <ul>
-          <li>Robôs de navegação e scraping com Selenium, tratamento tabular com openpyxl.</li>
-          <li>Rotinas agendadas que validam dados e notificam via e-mail/Teams.</li>
-          <li>Painel com logs detalhados e reprocessamento em um clique.</li>
-        </ul>
-      </section>
-      <section>
-        <h2>Links</h2>
-        <p>
-          <a
-            class="primary-button"
-            href="https://github.com/guilhermelopes/automacao-inteligente"
-            id="rpa-repo-link"
-            >GitHub</a
-          >
-          <a class="secondary-button" href="../index.html#projetos"
-            >Voltar aos cards</a
-          >
-        </p>
-      </section>
-    </main>
 
-    <section id="private-modal" class="modal-overlay" aria-live="assertive" aria-hidden="true">
-      <div class="modal-card">
-        <button id="close-private" class="modal-close" aria-label="Fechar aviso">×</button>
-        <h3>Repos privados 🤐</h3>
-        <p>
-          Esses repositórios de RPA são privados porque possuem automações ligadas a dados sensíveis da empresa.
-        </p>
-        <div class="cta-group single-action">
-          <button id="private-ok" class="primary-button">Entendi</button>
-        </div>
-      </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RPA &mdash; Automa&ccedil;&atilde;o de Processos e Relat&oacute;rios</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/icones/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/icones/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/icones/favicon-16x16.png" />
+  <link rel="manifest" href="../assets/icones/site.webmanifest" />
+  <link rel="icon" href="../assets/icones/favicon.ico" />
+  <link rel="stylesheet" href="../style.css" />
+</head>
+
+<body class="theme-light">
+  <main class="section">
+    <a class="ghost-button" href="../index.html">&larr; Voltar</a>
+    <header class="section-header">
+      <p class="eyebrow">Projeto destaque</p>
+      <h1>RPA &mdash; Automa&ccedil;&atilde;o de Processos e Relat&oacute;rios</h1>
+      <p>Desenvolvi bots em Python com Selenium e openpyxl para integrar dados e gerar relat&oacute;rios autom&aacute;ticos.</p>
+      <p>O sistema otimiza fluxos internos, entrega insights frescos e garante rastreabilidade ponta a ponta.</p>
+    </header>
+    <section>
+      <h2>Highlights</h2>
+      <ul>
+        <li>Rob&ocirc;s de navega&ccedil;&atilde;o e scraping com Selenium, tratamento tabular com openpyxl.</li>
+        <li>Rotinas agendadas que validam dados e notificam via e-mail/Teams.</li>
+        <li>Painel com logs detalhados e reprocessamento em um clique.</li>
+      </ul>
     </section>
+    <section>
+      <h2>Links</h2>
+      <p>
+        <a class="primary-button" href="https://github.com/guilhermelopes/automacao-inteligente" id="rpa-repo-link">GitHub</a>
+        <a class="secondary-button" href="../index.html#projetos">Voltar aos cards</a>
+      </p>
+    </section>
+  </main>
 
-    <script>
-      (function () {
-        const link = document.getElementById("rpa-repo-link");
-        const modal = document.getElementById("private-modal");
-        const closeButtons = [document.getElementById("close-private"), document.getElementById("private-ok")];
+  <section id="private-modal" class="modal-overlay" aria-live="assertive" aria-hidden="true">
+    <div class="modal-card">
+      <button id="close-private" class="modal-close" aria-label="Fechar aviso">&times;</button>
+      <h3>Repos privados &#128274;</h3>
+      <p>
+        Esses reposit&oacute;rios de RPA s&atilde;o privados porque possuem automa&ccedil;&otilde;es ligadas a dados sens&iacute;veis da empresa.
+      </p>
+      <div class="cta-group single-action">
+        <button id="private-ok" class="primary-button">Entendi</button>
+      </div>
+    </div>
+  </section>
 
-        function openModal(event) {
-          event?.preventDefault();
-          modal.classList.add("active");
-          modal.setAttribute("aria-hidden", "false");
-        }
+  <script>
+    (function () {
+      const link = document.getElementById("rpa-repo-link");
+      const modal = document.getElementById("private-modal");
+      const closeButtons = [document.getElementById("close-private"), document.getElementById("private-ok")];
 
-        function closeModal() {
-          modal.classList.remove("active");
-          modal.setAttribute("aria-hidden", "true");
-        }
+      function openModal(event) {
+        event?.preventDefault();
+        modal.classList.add("active");
+        modal.setAttribute("aria-hidden", "false");
+      }
 
-        link?.addEventListener("click", openModal);
-        closeButtons.forEach((btn) => btn?.addEventListener("click", closeModal));
-        modal.addEventListener("click", (event) => {
-          if (event.target === modal) closeModal();
-        });
-        document.addEventListener("keydown", (event) => {
-          if (event.key === "Escape" && modal.classList.contains("active")) closeModal();
-        });
-      })();
-    </script>
-  </body>
+      function closeModal() {
+        modal.classList.remove("active");
+        modal.setAttribute("aria-hidden", "true");
+      }
+
+      link?.addEventListener("click", openModal);
+      closeButtons.forEach((btn) => btn?.addEventListener("click", closeModal));
+      modal.addEventListener("click", (event) => {
+        if (event.target === modal) closeModal();
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && modal.classList.contains("active")) closeModal();
+      });
+    })();
+  </script>
+</body>
+
 </html>
